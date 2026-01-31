@@ -1,0 +1,97 @@
+:root {
+    --primary: #1e3a8a; /* Deep Navy Blue */
+    --secondary: #10b981; /* Cricket Grass Green */
+    --accent: #f59e0b; /* Cricket Ball Gold */
+    --bg: #f3f4f6;
+    --card-bg: #ffffff;
+    --text: #1f2937;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header & Navigation */
+header {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for all content */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Modern Card Layout */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+/* Typography */
+h2 {
+    color: var(--primary);
+    border-bottom: 2px solid var(--secondary);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+/* Form Elements */
+input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 20px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+/* Buttons */
+button {
+    background-color: var(--secondary);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #059669;
+}
+
+/* Score Display */
+.live-score-box {
+    text-align: center;
+    background: var(--primary);
+    color: white;
+    border-radius: 15px;
+    padding: 3rem;
+    margin-top: 2rem;
+}
+
+.score-text {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--accent);
+}
