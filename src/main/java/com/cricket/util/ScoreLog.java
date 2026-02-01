@@ -1,15 +1,13 @@
 package com.cricket.util;
 
 public class ScoreLog {
-    private int logId;
     private int matchId;
-    private int inning;
-    private int overNum;
-    private int ballNum;
     private int runs;
     private boolean isWide;
     private boolean isNoBall;
     private boolean isWicket;
+    private String strikerName; // Changed to String
+    private String bowlerName;  // Changed to String
 
     // Getters and Setters
     public int getMatchId() { return matchId; }
@@ -22,5 +20,8 @@ public class ScoreLog {
     public void setNoBall(boolean noBall) { isNoBall = noBall; }
     public boolean isWicket() { return isWicket; }
     public void setWicket(boolean wicket) { isWicket = wicket; }
-    // Add other getters/setters as needed...
+    public String getStrikerName() { return strikerName; }
+    public void setStrikerName(String strikerName) { this.strikerName = strikerName; }
+    public String getBowlerName() { return bowlerName; }
+    public void setBowlerName(String bowlerName) { this.bowlerName = bowlerName; }
 }

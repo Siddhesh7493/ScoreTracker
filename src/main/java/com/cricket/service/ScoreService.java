@@ -2,47 +2,27 @@ package com.cricket.service;
 
 import com.cricket.util.ScoreLog;
 import com.cricket.dao.ScoreDAO;
-import com.cricket.dao.MatchDAO;
+import com.cricket.util.DBConnection;
+import java.sql.*;
 
 public class ScoreService {
     private ScoreDAO scoreDAO = new ScoreDAO();
-    private MatchDAO matchDAO = new MatchDAO();
 
     public boolean processBall(ScoreLog log) {
-        // 1. Save the ball to DB first
+        // 1. Save ball to log (DAO already updated to handle striker_name/bowler_name)
         boolean saved = scoreDAO.insertBall(log);
         if (!saved) return false;
 
-        // 2. Strike Rotation on Odd Runs (1, 3, 5)
-        // Note: Wides/No-balls with odd runs also rotate strike in most rules
-        if (log.getRuns() % 2 != 0) {
-            rotateStrike(log.getMatchId());
-        }
-
-        // 3. Check for Over Completion (6 legal balls)
-        if (!log.isWide() && !log.isNoBall()) {
-            if (isOverComplete(log.getMatchId())) {
-                rotateStrike(log.getMatchId()); // Rotate ends at end of over
-                updateBowler(log.getMatchId());
-            }
-        }
+        // 2. Update the MATCH table with the manual names currently active
+        String sql = "UPDATE matches SET striker_name = ?, current_bowler_name = ? WHERE match_id = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1, log.getStrikerName());
+            pst.setString(2, log.getBowlerName());
+            pst.setInt(3, log.getMatchId());
+            pst.executeUpdate();
+        } catch (Exception e) { e.printStackTrace(); }
+        
         return true;
-    }
-
-    private void rotateStrike(int matchId) {
-        // Swaps striker_id and non_striker_id in the 'matches' table
-        matchDAO.swapPlayers(matchId);
-    }
-
-    private boolean isOverComplete(int matchId) {
-        // Count legal balls in the current match
-        int legalBalls = scoreDAO.getLegalBallCount(matchId);
-        return (legalBalls > 0 && legalBalls % 6 == 0);
-    }
-
-    private void updateBowler(int matchId) {
-        // Sets bowler_id to NULL so the scorer is forced 
-        // to select a new bowler for the next over in the UI
-        matchDAO.resetBowler(matchId);
     }
 }
