@@ -5,6 +5,7 @@ public class ScoreSummary {
     private int totalWickets;
     private int legalBalls;
     private String strikerName;
+    private String nonStrikerName;
     private int strikerRuns;
     private String bowlerName;
 
@@ -16,6 +17,8 @@ public class ScoreSummary {
     public void setLegalBalls(int legalBalls) { this.legalBalls = legalBalls; }
     public String getStrikerName() { return strikerName; }
     public void setStrikerName(String strikerName) { this.strikerName = strikerName; }
+    public String getNonStrikerName() { return nonStrikerName; }
+    public void setNonStrikerName(String nonStrikerName) { this.nonStrikerName = nonStrikerName; }
     public int getStrikerRuns() { return strikerRuns; }
     public void setStrikerRuns(int strikerRuns) { this.strikerRuns = strikerRuns; }
     public String getBowlerName() { return bowlerName; }

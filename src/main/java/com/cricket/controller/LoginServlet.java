@@ -1,7 +1,7 @@
 package com.cricket.controller;
 
 import com.cricket.dao.UserDAO;
-import com.cricket.util.User; // Matches your Project Explorer screenshot
+import com.cricket.util.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -9,7 +9,6 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
     private UserDAO userDAO = new UserDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -18,21 +17,20 @@ public class LoginServlet extends HttpServlet {
         String user = request.getParameter("username");
         String pass = request.getParameter("password");
 
-        // DEBUG: Check what is being received from the JSP
-        System.out.println("Login Attempt - Username: " + user + ", Password: " + pass);
+        User authenticatedUser = userDAO.validateUser(user, pass);
 
-        User validatedUser = userDAO.validateUser(user, pass);
-
-        if (validatedUser != null) {
-            // DEBUG: Verification of successful DB match
-            System.out.println("Success: User " + validatedUser.getUsername() + " found with role " + validatedUser.getRole());
-            
+        if (authenticatedUser != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", validatedUser);
-            response.sendRedirect("dashboard.jsp");
+            session.setAttribute("user", authenticatedUser);
+            session.setAttribute("role", authenticatedUser.getRole());
+
+            // Role-Based Redirection
+            if ("admin".equals(authenticatedUser.getRole())) {
+                response.sendRedirect("dashboard.jsp"); // Admin sees match creation
+            } else if ("scorer".equals(authenticatedUser.getRole())) {
+                response.sendRedirect("selectMatch"); // Scorer goes to match selection
+            }
         } else {
-            // DEBUG: Failure notification
-            System.out.println("Failure: No match found in 'users' table for these credentials.");
             response.sendRedirect("login.jsp?error=Invalid Credentials");
         }
     }

@@ -6,8 +6,8 @@ public class ScoreLog {
     private boolean isWide;
     private boolean isNoBall;
     private boolean isWicket;
-    private String strikerName; // Changed to String
-    private String bowlerName;  // Changed to String
+    private String strikerName; // For manual entry
+    private String bowlerName;  // For manual entry
 
     // Getters and Setters
     public int getMatchId() { return matchId; }

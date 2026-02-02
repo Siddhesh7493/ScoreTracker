@@ -1,4 +1,3 @@
-
 package com.cricket.controller;
 
 import com.cricket.dao.ReportDAO;
@@ -16,9 +15,9 @@ public class ScoreboardServlet extends HttpServlet {
             throws ServletException, IOException {
         
         int matchId = Integer.parseInt(request.getParameter("matchId"));
-        ScoreSummary summary = reportDAO.getLiveScore(matchId);
+        ScoreSummary score = reportDAO.getLiveScore(matchId);
         
-        request.setAttribute("score", summary);
+        request.setAttribute("score", score);
         request.getRequestDispatcher("scoreboard.jsp").forward(request, response);
     }
 }
