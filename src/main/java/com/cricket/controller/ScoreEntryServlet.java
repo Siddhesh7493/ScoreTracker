@@ -15,18 +15,29 @@ public class ScoreEntryServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
-            int matchId = Integer.parseInt(request.getParameter("matchId"));
+            String idParam = request.getParameter("matchId");
+            if (idParam == null) {
+                response.sendRedirect("selectMatch?error=NoMatchSelected");
+                return;
+            }
+
+            int matchId = Integer.parseInt(idParam);
             
-            // Use ReportDAO to get the current match state (names, runs, etc.)
+            // Fetch state from DAO
             ScoreSummary matchState = reportDAO.getLiveScore(matchId);
             
-            // Pass the state to the JSP
+            // Safety: If matchState is null (match doesn't exist), initialize a blank one
+            if (matchState == null) {
+                matchState = new ScoreSummary();
+            }
+
             request.setAttribute("matchState", matchState);
             request.getRequestDispatcher("scoreEntry.jsp").forward(request, response);
             
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("selectMatch?error=InvalidMatch");
+            // Redirect back with error if something fails
+            response.sendRedirect("selectMatch?error=SystemError");
         }
     }
 }

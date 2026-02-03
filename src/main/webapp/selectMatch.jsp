@@ -50,8 +50,10 @@
                     <div class="match-info"><%= m.getTeamA() %> <span style="color: #94a3b8;">vs</span> <%= m.getTeamB() %></div>
                     <div class="venue">📍 <%= m.getVenue() != null ? m.getVenue() : "General Grounds" %></div>
                 </div>
-                <a href="scoreEntry?matchId=<%= m.getMatchId() %>" class="btn-score">Start Scoring</a>
-            </div>
+                <a href="${pageContext.request.contextPath}/scoreEntry?matchId=<%= m.getMatchId() %>" class="btn-score">
+    Start Scoring
+				</a>            
+				</div>
         <% 
                 }
             } else { 
