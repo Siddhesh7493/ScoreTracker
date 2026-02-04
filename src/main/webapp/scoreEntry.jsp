@@ -9,14 +9,13 @@
     <header><h1>🏏 Scorer Dashboard</h1></header>
     <div class="container">
         <% 
-            // 1. Bulletproof null check for striker names 
-            ScoreSummary s = (ScoreSummary) request.getAttribute("matchState"); 
-            boolean isNewBatsmanNeeded = true;
-            if (s != null && s.getStrikerName() != null && !s.getStrikerName().trim().isEmpty()) {
-                isNewBatsmanNeeded = false;
-            }
-            String matchId = request.getParameter("matchId");
-        %>
+    		ScoreSummary s = (ScoreSummary) request.getAttribute("matchState"); 
+    		boolean isNewBatsmanNeeded = true;
+    		if (s != null && s.getStrikerName() != null && !s.getStrikerName().trim().isEmpty()) {
+        	isNewBatsmanNeeded = false;
+    		}
+    		String matchId = request.getParameter("matchId");
+		%>
 
         <div class="card">
             <h2 style="margin-bottom: 20px;">Match ID: <%= matchId %> | Overs: <%= (s != null) ? s.getOversFormatted() : "0.0" %></h2>

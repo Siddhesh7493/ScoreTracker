@@ -96,5 +96,23 @@
             <div style="text-align: center; font-size: 2rem;">WAITING FOR LIVE DATA...</div>
         <% } %>
     </div>
+    <div style="margin-top: 25px; border-top: 1px solid #1e293b; padding-top: 15px;">
+    <div style="color: #64748b; font-size: 1rem; text-transform: uppercase; margin-bottom: 10px;">Fall of Wickets</div>
+    <div style="display: flex; gap: 20px; color: #fff; font-size: 1.2rem; flex-wrap: wrap;">
+        <% 
+            if (s.getWicketHistory() != null && !s.getWicketHistory().isEmpty()) {
+                for (String wxt : s.getWicketHistory()) { 
+        %>
+            <span style="background: #1e293b; padding: 5px 12px; border-radius: 4px;">
+                <%= wxt %>
+            </span>
+        <% 
+                }
+            } else { 
+        %>
+            <span style="color: #475569;">No wickets fallen yet</span>
+        <% } %>
+    </div>
+</div>
 </body>
 </html>

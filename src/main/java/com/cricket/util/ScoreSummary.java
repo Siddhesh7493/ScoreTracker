@@ -1,5 +1,7 @@
 package com.cricket.util;
 
+import java.util.List;
+
 public class ScoreSummary {
     private int totalRuns, totalWickets, legalBalls;
     private String strikerName, nonStrikerName, bowlerName;
@@ -42,4 +44,8 @@ public class ScoreSummary {
         String overs = (bowlerBalls / 6) + "." + (bowlerBalls % 6);
         return overs + "-" + bowlerDots + "-" + bowlerRuns + "-" + bowlerWickets;
     }
+    
+    private List<String> wicketHistory; // Format: 31/1 (S. Samson, 2.5 ov)
+    public List<String> getWicketHistory() { return wicketHistory; }
+    public void setWicketHistory(List<String> wicketHistory) { this.wicketHistory = wicketHistory; }
 }
