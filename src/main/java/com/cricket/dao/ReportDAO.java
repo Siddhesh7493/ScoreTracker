@@ -24,11 +24,9 @@ public class ReportDAO {
             "FROM matches m WHERE m.match_id = ?";
 
         try (Connection con = DBConnection.getConnection()) {
-            // 1. Fetch Main Scoreboard Data
             try (PreparedStatement pst = con.prepareStatement(sql)) {
                 for (int i = 1; i <= 11; i++) pst.setInt(i, matchId);
                 pst.setInt(12, matchId);
-                
                 try (ResultSet rs = pst.executeQuery()) {
                     if (rs.next()) {
                         s.setTotalRuns(rs.getInt("total_runs"));
@@ -49,14 +47,15 @@ public class ReportDAO {
                 }
             }
 
-         // Replace the Wicket History block inside getLiveScore with this:
+         // Inside ReportDAO.java, replace the Wicket History block with this fixed version:
             List<String> fallOfWickets = new ArrayList<>();
+            // Changed ball_id to log_id to match your actual database schema
             String wicketSql = "SELECT striker_name, total_at_wicket, wicket_num, legal_ball_at_wicket " +
                 "FROM ( " +
-                "  SELECT striker_name, is_wicket, " +
-                "  (SELECT COALESCE(SUM(runs),0) FROM score_log s2 WHERE s2.match_id = s1.match_id AND s2.ball_id <= s1.ball_id) as total_at_wicket, " +
-                "  (SELECT COUNT(*) FROM score_log s3 WHERE s3.match_id = s1.match_id AND s3.ball_id <= s1.ball_id AND s3.is_wicket = true) as wicket_num, " +
-                "  (SELECT COUNT(*) FROM score_log s4 WHERE s4.match_id = s1.match_id AND s4.ball_id <= s1.ball_id AND s4.is_wide = false AND s4.is_noball = false) as legal_ball_at_wicket " +
+                "  SELECT s1.striker_name, s1.is_wicket, " +
+                "  (SELECT COALESCE(SUM(runs),0) FROM score_log s2 WHERE s2.match_id = s1.match_id AND s2.log_id <= s1.log_id) as total_at_wicket, " +
+                "  (SELECT COUNT(*) FROM score_log s3 WHERE s3.match_id = s1.match_id AND s3.log_id <= s1.log_id AND s3.is_wicket = true) as wicket_num, " +
+                "  (SELECT COUNT(*) FROM score_log s4 WHERE s4.match_id = s1.match_id AND s4.log_id <= s1.log_id AND s4.is_wide = false AND s4.is_noball = false) as legal_ball_at_wicket " +
                 "  FROM score_log s1 WHERE match_id = ? " +
                 ") sub " +
                 "WHERE is_wicket = true ORDER BY wicket_num ASC";
@@ -73,10 +72,7 @@ public class ReportDAO {
                 }
             }
             s.setWicketHistory(fallOfWickets);
-
-        } catch (SQLException e) { // Added missing catch block
-            e.printStackTrace();
-        }
-        return s; // Final return statement
+        } catch (SQLException e) { e.printStackTrace(); }
+        return s;
     }
 }

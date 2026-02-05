@@ -7,8 +7,9 @@ public class ScoreSummary {
     private String strikerName, nonStrikerName, bowlerName;
     private int strikerRuns, strikerBalls, nonStrikerRuns, nonStrikerBalls;
     private int bowlerDots, bowlerRuns, bowlerWickets, bowlerBalls;
+    private List<String> wicketHistory;
 
-    // Getters and Setters for all fields
+    // Standard Getters and Setters
     public int getTotalRuns() { return totalRuns; }
     public void setTotalRuns(int totalRuns) { this.totalRuns = totalRuns; }
     public int getTotalWickets() { return totalWickets; }
@@ -34,18 +35,18 @@ public class ScoreSummary {
     public void setBowlerWickets(int bowlerWickets) { this.bowlerWickets = bowlerWickets; }
     public void setBowlerBalls(int bowlerBalls) { this.bowlerBalls = bowlerBalls; }
 
-    // Helper for main overs
-    public String getOversFormatted() {
-        return (legalBalls / 6) + "." + (legalBalls % 6);
-    }
-
-    // Helper for (O-D-R-W) format
-    public String getBowlingStat() {
-        String overs = (bowlerBalls / 6) + "." + (bowlerBalls % 6);
-        return overs + "-" + bowlerDots + "-" + bowlerRuns + "-" + bowlerWickets;
-    }
-    
-    private List<String> wicketHistory; // Format: 31/1 (S. Samson, 2.5 ov)
     public List<String> getWicketHistory() { return wicketHistory; }
     public void setWicketHistory(List<String> wicketHistory) { this.wicketHistory = wicketHistory; }
+
+    // Helper Methods
+    public String getOversFormatted() { return (legalBalls / 6) + "." + (legalBalls % 6); }
+    
+    public boolean isOverComplete() { 
+        return legalBalls > 0 && legalBalls % 6 == 0; 
+    }
+    
+    public String getBowlingStat() { 
+        String overs = (bowlerBalls / 6) + "." + (bowlerBalls % 6);
+        return overs + "-" + bowlerDots + "-" + bowlerRuns + "-" + bowlerWickets; 
+    }
 }
